@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5A2A6A85-9109-46F7-A14A-0BB5CAC2D4B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTranslationAPI.API", "src\AudioTranslationAPI.API\AudioTranslationAPI.API.csproj", "{C87FE974-D679-4567-BAD6-76374AF0DFBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTranslationAPI.Application", "src\AudioTranslationAPI.Application\AudioTranslationAPI.Application.csproj", "{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTranslationAPI.Domain", "src\AudioTranslationAPI.Domain\AudioTranslationAPI.Domain.csproj", "{BCD4682A-0233-4CE4-8CBA-71D337DE41BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AudioTranslationAPI.Infrastructure", "src\AudioTranslationAPI.Infrastructure\AudioTranslationAPI.Infrastructure.csproj", "{E7769442-29E2-4AB7-B065-710EE5B124BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{1F6DBF7A-2C44-4E55-84E3-74A2BD924899}"
+	ProjectSection(SolutionItems) = preProject
+		README.txt = README.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C87FE974-D679-4567-BAD6-76374AF0DFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C87FE974-D679-4567-BAD6-76374AF0DFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C87FE974-D679-4567-BAD6-76374AF0DFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C87FE974-D679-4567-BAD6-76374AF0DFBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCD4682A-0233-4CE4-8CBA-71D337DE41BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCD4682A-0233-4CE4-8CBA-71D337DE41BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCD4682A-0233-4CE4-8CBA-71D337DE41BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCD4682A-0233-4CE4-8CBA-71D337DE41BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7769442-29E2-4AB7-B065-710EE5B124BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7769442-29E2-4AB7-B065-710EE5B124BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7769442-29E2-4AB7-B065-710EE5B124BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7769442-29E2-4AB7-B065-710EE5B124BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C87FE974-D679-4567-BAD6-76374AF0DFBD} = {5A2A6A85-9109-46F7-A14A-0BB5CAC2D4B5}
+		{1C3E61EE-8B2A-4D38-967E-B45B0ADF3800} = {5A2A6A85-9109-46F7-A14A-0BB5CAC2D4B5}
+		{BCD4682A-0233-4CE4-8CBA-71D337DE41BB} = {5A2A6A85-9109-46F7-A14A-0BB5CAC2D4B5}
+		{E7769442-29E2-4AB7-B065-710EE5B124BB} = {5A2A6A85-9109-46F7-A14A-0BB5CAC2D4B5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D793D268-4249-4B68-8F06-719E09CAC3A6}
+	EndGlobalSection
+EndGlobal

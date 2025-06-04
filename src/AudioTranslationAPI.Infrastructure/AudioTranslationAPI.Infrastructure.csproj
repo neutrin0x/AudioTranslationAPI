@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\AudioTranslationAPI.Domain\AudioTranslationAPI.Domain.csproj" />
+    <ProjectReference Include="..\AudioTranslationAPI.Application\AudioTranslationAPI.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="FFMpegCore" Version="5.0.2" />
+	<PackageReference Include="NAudio" Version="2.2.1" />
+	<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+	<PackageReference Include="System.Text.Json" Version="9.0.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
