@@ -10,7 +10,7 @@ using Hangfire.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ===== LOGGING CONFIGURATION =====
+// ===== CONFIGURACION LOG =====
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -20,7 +20,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// ===== SERVICES CONFIGURATION =====
+// ===== CONFIGURACION SERVICIOS =====
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -28,7 +28,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
     });
 
-// API Documentation
+// SWAGGER DOC
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -39,11 +39,11 @@ builder.Services.AddSwaggerGen(c =>
         Description = "API para traducción de audio en tiempo real entre idiomas"
     });
 
-    // Enable file upload in Swagger
+    // ACTIVAR UPLOAD EN SWAGGER
     c.OperationFilter<FileUploadOperationFilter>();
 });
 
-// ===== CORS CONFIGURATION =====
+// ===== CONFIGURACION CORS =====
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFlutterApp", policy =>
@@ -55,7 +55,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// ===== HANGFIRE CONFIGURATION =====
+// ===== CONFIGURACION HANGFIRE =====
 var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection")
     ?? "Data Source=audiotranslation.db"; // SQLite por defecto para desarrollo
 
@@ -71,39 +71,39 @@ builder.Services.AddHangfireServer(options =>
     options.Queues = new[] { "critical", "default", "low" };
 });
 
-// ===== HTTP CLIENT CONFIGURATION =====
+// ===== CONFIGURACION CLIENTE HTTP =====
 builder.Services.AddHttpClient();
 
-// ===== AUDIO PROCESSING CONFIGURATION =====
+// ===== CONFIGURACION PROCESAMIENTO DE AUDIO =====
 builder.Services.Configure<AudioProcessingOptions>(
     builder.Configuration.GetSection("AudioProcessing"));
 
 builder.Services.Configure<ExternalServicesOptions>(
     builder.Configuration.GetSection("ExternalServices"));
 
-// ===== DEPENDENCY INJECTION =====
+// ===== INYECCION DE DEPENDENCIAS =====
 
-// Application Services
+// Application 
 builder.Services.AddScoped<IAudioTranslationService, AudioTranslationService>();
 
-// Infrastructure Services - Audio Processing
+// Infrastructure - Audio 
 builder.Services.AddScoped<IAudioValidationService, AudioValidationService>();
 builder.Services.AddScoped<IAudioConverterService, AudioConverterService>();
 builder.Services.AddScoped<IAudioProcessingService, FFmpegAudioProcessingService>();
 
-// Infrastructure Services - AI/ML
+// Infrastructure - AI/ML
 builder.Services.AddScoped<ISpeechToTextService, GoogleSpeechToTextService>();
 builder.Services.AddScoped<ITranslationService, MyMemoryTranslationService>();
 builder.Services.AddScoped<ITextToSpeechService, GoogleTextToSpeechService>();
 
-// Infrastructure Services - Storage
+// Infrastructure - Storage
 builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 builder.Services.AddSingleton<IAudioRepository, InMemoryAudioRepository>(); // Temporal, luego Entity Framework
 
 // Background Services
 builder.Services.AddScoped<IAudioTranslationBackgroundService, AudioTranslationBackgroundService>();
 
-// ===== REQUEST SIZE LIMITS =====
+// ===== LIMITES DE TAMAÑO DE REQUEST =====
 builder.Services.Configure<IISServerOptions>(options =>
 {
     options.MaxRequestBodySize = 50_000_000; // 50MB
@@ -120,18 +120,24 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // ← Esta línea debe estar
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor |
+                       Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
+    });
+
+    app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Audio Translation API V1");
-        c.RoutePrefix = string.Empty; // ← Swagger en la raíz
+        c.RoutePrefix = string.Empty;
     });
 }
 
 app.UseHttpsRedirection();
 app.UseCors("AllowFlutterApp");
 
-// Hangfire Dashboard
+// HANGFIRE DASHBOARD
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = app.Environment.IsDevelopment()
@@ -144,7 +150,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// ===== STARTUP TASKS =====
+// ===== STARTUP =====
 try
 {
     // Verificar que FFmpeg esté disponible
@@ -168,7 +174,7 @@ finally
     Log.CloseAndFlush();
 }
 
-// ===== HELPER CLASSES =====
+// ===== HELPERS =====
 
 public class AllowAllConnectionsFilter : IDashboardAuthorizationFilter
 {

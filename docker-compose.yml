@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Main API service
+  audiotranslation-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: audiotranslation-api
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      # Audio Processing Configuration
+      - AudioProcessing__FFmpegPath=/usr/bin/ffmpeg
+      - AudioProcessing__TempDirectory=/app/storage/temp
+      - AudioProcessing__OutputDirectory=/app/storage/translated_audio
+      - AudioProcessing__MaxFileSizeMB=50
+      - AudioProcessing__MaxDurationMinutes=10
+      # External Services Configuration (set via secrets or env file)
+      - ExternalServices__Google__SpeechToText__ApiKey=${GOOGLE_STT_API_KEY}
+      - ExternalServices__Google__TextToSpeech__ApiKey=${GOOGLE_TTS_API_KEY}
+      - ExternalServices__MyMemory__Email=${MYMEMORY_EMAIL}
+      # Hangfire Configuration
+      - ConnectionStrings__HangfireConnection=Data Source=/app/storage/hangfire.db
+    volumes:
+      # Persist storage data
+      - audiotranslation-storage:/app/storage
+      - audiotranslation-logs:/app/logs
+    networks:
+      - audiotranslation-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: audiotranslation-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # For SSL certificates (if needed)
+      # - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - audiotranslation-api
+    networks:
+      - audiotranslation-network
+    restart: unless-stopped
+
+  # Optional: Redis for caching (future enhancement)
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: audiotranslation-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - audiotranslation-redis:/data
+  #   networks:
+  #     - audiotranslation-network
+  #   restart: unless-stopped
+
+volumes:
+  audiotranslation-storage:
+    driver: local
+  audiotranslation-logs:
+    driver: local
+  # audiotranslation-redis:
+  #   driver: local
+
+networks:
+  audiotranslation-network:
+    driver: bridge

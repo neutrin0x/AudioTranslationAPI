@@ -168,4 +168,16 @@ public class AudioTranslationController : ControllerBase
             return StatusCode(500, new { error = "Error interno del servidor" });
         }
     }
+
+    [HttpGet("/health")]
+    public IActionResult Health()
+    {
+        return Ok(new
+        {
+            status = "healthy",
+            timestamp = DateTime.UtcNow,
+            service = "AudioTranslation API",
+            version = "1.0.0"
+        });
+    }
 }
