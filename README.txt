@@ -8,8 +8,6 @@
 
 📌 ** INSTRUCCIONES **
 
-Esta API permite subir archivos de audio, transcribirlos y traducirlos a diferentes idiomas.
-
 📄 Swagger UI: http://localhost:7238/
 
 ⚠️ **IMPORTANTE**
